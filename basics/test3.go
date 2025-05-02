@@ -17,3 +17,4 @@ func main() {
     <-done // Wait for goroutine to finish
     fmt.Println("Main function finishes.")
 }
+

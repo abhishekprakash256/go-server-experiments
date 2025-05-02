@@ -1,0 +1,15 @@
+container services
+
+mongo - container
+pgsql - container
+redis - container
+
+mongo-access - uses mongo helper kit , expose api for blog and message access for chat - container
+pgsql-access - use pgsql-helper kit , expose api for login data - container
+redis-acess - uses redis helper kit , expose api for unique hash generation and storage - container 
+
+
+api-gateway for redirection and jwt and login - container
+
+front-end - container - use the front end component kit 
+
