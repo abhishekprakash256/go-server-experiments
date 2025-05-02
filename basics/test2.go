@@ -4,6 +4,14 @@ import "fmt"
 import "unsafe"
 
 
+func add(a int , b int) (int) {
+	
+	var sum int = a + b 
+	
+	return sum
+}
+
+
 
 func main() {
 	// make variable
@@ -27,6 +35,11 @@ func main() {
 	fmt.Printf("Size of a is: %d\n", unsafe.Sizeof(a))
 	fmt.Printf("Size of b is: %d\n", unsafe.Sizeof(b))
 	fmt.Printf("Size of city is: %d\n", unsafe.Sizeof(city))
+
+
+	res := add(a,b) 
+	// get the sum
+	fmt.Println("Sum by the func ", res )
 
 
 
