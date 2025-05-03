@@ -13,3 +13,7 @@ api-gateway for redirection and jwt and login - container
 
 front-end - container - use the front end component kit 
 
+later - 
+tiny-url - container 
+chat-server - container
+
