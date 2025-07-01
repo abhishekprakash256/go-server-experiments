@@ -1,0 +1,8 @@
+Steps to work with Golang 
+
+- make a module 
+    - go mod init <module_name>
+
+- install the gorilla/websocket
+    - go get github.com/gorilla/websocket
+
