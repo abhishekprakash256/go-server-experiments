@@ -6,3 +6,9 @@ Steps to work with Golang
 - install the gorilla/websocket
     - go get github.com/gorilla/websocket
 
+
+
+docs -- 
+
+- https://pkg.go.dev/github.com/gorilla/websocket#section-readme
+
