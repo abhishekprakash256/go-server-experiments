@@ -70,6 +70,20 @@ go mod init mymodule
 go get [package]
 ```
 
+
+## Commands -- 
+
+```bash
+go mod init <file_name>  # to create the file name mod file that has the reqs 
+
+go run .   #to run the file one file that has main fun 
+
+go help   #go get the help for the function 
+
+go mod tidy   #to fix the go.mod file 
+
+```
+
 ## 💡 First Example: HTTP Server
 
 ```go
