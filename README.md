@@ -82,6 +82,10 @@ go help   #go get the help for the function
 
 go mod tidy   #to fix the go.mod file 
 
+go build  # to build the executible 
+
+go test # to run the test in the code
+
 ```
 
 ## 💡 First Example: HTTP Server
@@ -105,6 +109,13 @@ func main() {
 }
 ```
 
+Links -
+
+- https://go.dev/doc/tutorial/call-module-code
+
+- https://pkg.go.dev/github.com/gorilla/websocket#section-readme
+
+- https://gowebexamples.com/
 
 
 
