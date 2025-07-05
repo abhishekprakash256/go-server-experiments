@@ -86,6 +86,8 @@ go build  # to build the executible
 
 go test # to run the test in the code
 
+go get .  #install the module from the go package
+
 ```
 
 ## 💡 First Example: HTTP Server
