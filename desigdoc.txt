@@ -1,2 +1,35 @@
 The design of the chat apps - whatsapps 
 
+reqs -- 
+
+- people join with unique hash link , (session manager)
+- login with name , Login system
+- message storage  (postgresql, message_id (unique hash), name, message, time ) 
+- send and store message even if offline  
+- fetch message when come online  
+- notifications for message 
+- send and read reciepts
+
+
+
+
+-- The tech stack to be used 
+
+| Layer        | Tech                                  |
+| ------------ | ------------------------------------- |
+| Frontend     | Next.js, WebSocket |
+| Backend      | Go |
+| WebSocket    | Gorilla |
+| DB           | PostgreSQL (messages, users) |
+| Caching      | Redis (presence + temp store) |
+| Messaging    | WebSocket, fallback: polling  |
+| Notification | WebSocket push, or Redis pub-sub |
+
+
+
+Session manager -- 
+
+- The session manager uses the same hash_id for connecting the backedn and the front-end api 
+- The backend has the session manager , the connect the user based on the hash and the auth 
+- The front-end opens the WebSocket client to connect with backend session id, sends/recieves message via sessionid 
+
