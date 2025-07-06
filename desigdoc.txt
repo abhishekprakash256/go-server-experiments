@@ -33,3 +33,47 @@ Session manager --
 - The backend has the session manager , the connect the user based on the hash and the auth 
 - The front-end opens the WebSocket client to connect with backend session id, sends/recieves message via sessionid 
 
+
+Flow -- 
+
+user go to registration -- 
+
+- The name has to be different
+- register to the page 
+- gets the unique_id, that has to be stored in the redis
+- make the register with using go 
+- Redis asscess has to made in go ?? 
+
+
+
+API calls --
+demo/chat/register  -> front end 
+
+backend -- 
+
+    - /chat/register/user1
+    - /chat/register/user2 
+
+    - /chat/register/submit
+
+
+After the registration -- 
+
+- front-end 
+
+    - /chat/user/<hash>login , give the login
+
+    - after login
+
+    -/chat/user/<hash>message
+
+
+- backend 
+    
+    - /chat/user/<hash>/message_inp  , the input box
+    - /chat/user/<hash>/message_send , send the message box 
+
+
+
+
+
