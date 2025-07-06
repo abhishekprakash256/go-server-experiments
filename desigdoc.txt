@@ -12,21 +12,6 @@ reqs --
 
 
 
-
--- The tech stack to be used 
-
-| Layer        | Tech                                  |
-| ------------ | ------------------------------------- |
-| Frontend     | Next.js, WebSocket |
-| Backend      | Go |
-| WebSocket    | Gorilla |
-| DB           | PostgreSQL (messages, users) |
-| Caching      | Redis (presence + temp store) |
-| Messaging    | WebSocket, fallback: polling  |
-| Notification | WebSocket push, or Redis pub-sub |
-
-
-
 Session manager -- 
 
 - The session manager uses the same hash_id for connecting the backedn and the front-end api 
@@ -46,32 +31,112 @@ user go to registration --
 
 
 
-API calls --
-demo/chat/register  -> front end 
 
-backend -- 
+## ✅ High-Level Design Summary
 
-    - /chat/register/user1
-    - /chat/register/user2 
+### 🔧 Tech Stack Overview
 
-    - /chat/register/submit
-
-
-After the registration -- 
-
-- front-end 
-
-    - /chat/user/<hash>login , give the login
-
-    - after login
-
-    -/chat/user/<hash>message
+| Component | Technology                    |
+| --------- | ----------------------------- |
+| Frontend  | Next.js, WebSocket            |
+| Backend   | Go (with Gorilla WebSocket)   |
+| DB        | MongoDB (messages, users)     |
+| Cache     | Redis (session/user/presence) |
 
 
-- backend 
-    
-    - /chat/user/<hash>/message_inp  , the input box
-    - /chat/user/<hash>/message_send , send the message box 
+
+## 🔐 Session Manager Logic
+
+### ✅ Backend Session Manager (in Go):
+
+* Owns the session hash (`hash_id`)
+* Verifies users during registration/login
+* Connects WebSocket users using `session_id + name`
+* Stores session & user info temporarily in **Redis**
+
+### ✅ Frontend (Next.js):
+
+* Calls Go API to register a user
+* Stores the hash locally (in route like `/chat/user/<hash>/message`)
+* Opens WebSocket connection: `ws://yourapp/ws?session_id=<hash>&username=Abhi`
+
+
+## 🧭 Flow: Registration → Login → Messaging
+
+### 1️⃣ **Registration Phase**
+
+#### Frontend Page
+
+* `/chat/register` — registration form with 2 input fields
+
+#### Backend Endpoints
+
+| Endpoint                              | Description                                        |
+| ------------------------------------- | -------------------------------------------------- |
+| `POST /chat/register/first_user_inp`  | Submit first user name                             |
+| `POST /chat/register/second_user_inp` | Submit second user name                            |
+| `POST /chat/register/submit`          | Final submit: validates + creates session in Redis |
+
+#### Redis Schema Example
+
+```redis
+HSET session:<session_id> users user1 user2
+EXPIRE session:<session_id> 2h
+```
+
+### 2️⃣ **Login Phase**
+
+#### Frontend Pages
+
+* `/chat/user/login` → login UI with session ID + username input
+* `/chat/user/username_submit` → submit the username
+* On success, redirect to `/chat/user/<hash>/message`
+
+#### Backend Endpoints
+
+| Endpoint                             | Description                   |
+| ------------------------------------ | ----------------------------- |
+| `POST /chat/user/username_submit`    | Check if user exists in Redis |
+| `GET  /chat/user/<hash>/message_inp` | Serve message input page      |
+
+- use the username to store the message  
+
+
+### 3️⃣ **Chat + Messaging Phase**
+
+#### WebSocket Connection
+
+```ts
+ws://yourserver/ws?session_id=abc123&username=Abhi
+```
+
+#### Backend WebSocket Logic:
+
+* Validate `session_id` and `username` from Redis
+* Add user to in-memory map
+* Route messages
+* Store each message to MongoDB:
+
+```json
+{
+  "_id": ObjectId(),
+  "session_id": "abc123",
+  "sender_name": "Abhi",
+  "content": "Hello",
+  "timestamp": ISODate(),
+  "read_by": [],
+  "delivered_to": ["Bob"]
+}
+```
+
+#### Backend Message Endpoints (optional fallback)
+
+| Endpoint                              | Description                    |
+| ------------------------------------- | ------------------------------ |
+| `POST /chat/user/<hash>/message_send` | Send message (if not using WS) |
+
+
+
 
 
 
