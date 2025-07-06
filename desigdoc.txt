@@ -40,7 +40,7 @@ user go to registration --
 | --------- | ----------------------------- |
 | Frontend  | Next.js, WebSocket            |
 | Backend   | Go (with Gorilla WebSocket)   |
-| DB        | MongoDB (messages, users)     |
+| DB        | postgresql |
 | Cache     | Redis (session/user/presence) |
 
 
@@ -139,6 +139,56 @@ ws://yourserver/ws?session_id=abc123&username=Abhi
 
 
 
+How the seession manager works and the flow -- > 
+
+session manager is written in go , chat_id is the hash to find the user and connect the user 
+
+the chat_id is the same hash that is generated when user register and they are given a hash 
+
+
+Login --> 
+can use postgresql to store the message data and also the login hash as primary key and user names 
+
+
+Schema -- 
+
+login table -- 
+
+chat_id (hash) , user_one (name stored encrypted) , user_two (name stored encrypted)
+
+CREATE TABLE chat.chat_login (
+    chat_id TEXT PRIMARY KEY,                -- same hash from session
+    user_one BYTEA NOT NULL,                 -- encrypted username
+    user_two BYTEA NOT NULL                  -- encrypted username
+);
+
+
+message table -- 
+
+chat_id (hash), message_id (UUID) , sender_name (name stored encrypted), reciver_name (name stored encrypted) , message (store encrypted) , timestamp , read
+
+CREATE TABLE chat.chat_message (
+    message_id     UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    chat_id        TEXT REFERENCES chat.chat_login(chat_id) ON DELETE CASCADE,
+    sender_name    BYTEA NOT NULL,           -- encrypted
+    receiver_name  BYTEA NOT NULL,           -- encrypted
+    message        BYTEA NOT NULL,           -- encrypted
+    timestamp      TIMESTAMPTZ DEFAULT now(),
+    read           BOOLEAN DEFAULT false
+);
+
+
+- The encryption can be handled by the go layer 
 
 
 
+
+
+
+
+
+
+
+Links -- 
+
+- https://medium.com/@akgol97_/building-a-restful-api-with-go-and-postgres-guide-64ccd3da6bc
