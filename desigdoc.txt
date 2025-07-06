@@ -178,6 +178,8 @@ CREATE TABLE chat.chat_message (
 );
 
 
+
+
 - The encryption can be handled by the go layer 
 
 
