@@ -178,9 +178,28 @@ CREATE TABLE chat.chat_message (
 );
 
 
-
-
 - The encryption can be handled by the go layer 
+
+The notification and the online status 
+
+| Feature          | Backed by     | Description                        |
+| ---------------- | ------------- | ---------------------------------- |
+| Online status    | Redis         | `SET presence:<user>` with expiry  |
+| WebSocket ping   | Redis         | Refresh `EX 300` every few seconds |
+| Message delivery | WebSocket     | If online, send real-time          |
+| Message fallback | Redis         | If offline, `LPUSH notify:<user>`  |
+| Fetch missed     | Redis         | `LRANGE notify:<user>` on connect  |
+| Scale messaging  | Redis Pub/Sub | Multi-node push sync               |
+
+
+
+
+
+
+
+
+
+
 
 
 
