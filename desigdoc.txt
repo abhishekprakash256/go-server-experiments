@@ -38,7 +38,7 @@ user go to registration --
 
 | Component | Technology                    |
 | --------- | ----------------------------- |
-| Frontend  | Next.js, WebSocket            |
+| Frontend  | Next.js, WebSocket (react-use-WebSocket)           |
 | Backend   | Go (with Gorilla WebSocket)   |
 | DB        | postgresql |
 | Cache     | Redis (session/user/presence) |
@@ -193,6 +193,30 @@ The notification and the online status
 
 
 
+Perosonal notes -- 
+
+The backend makes the main server using WebSocket that can run on any port and opens the bidirectional connection , also the backend is responisible for the routing system for the messsage and deliver to the client connection 
+The frontend opens a WebSocket connection in the browser and then get ready to accept the connection, we need to recoginze the client connection and deliver the correct message instead to broadcasdting ? also both see the meesage 
+meawhile save the message as well for  each other and keep the order correct 
+two tables can be used one login table - or can be used also as message routing to find the other member, messages can be stored in the message table 
+broadcast the message so both can see the message also to the coorect member can see the message as well , use the chathash_id and user1 , user2  
+
+
+## The arhitecture diagram
+
+Frontend Browser (User1) <-- WS -->|
+                                   |==> Backend WebSocket Server (Go)
+Frontend Browser (User2) <-- WS -->|           |
+                                   |           |
+                        Redis (for presence)   |
+                                   |           |
+                        Postgres (chat + messages)
+
+when the user connects to the WebSocket send the user name and the chathash_id as well so the server knows where to send and receve the message 
+
+
+
+
 
 
 
@@ -215,7 +239,5 @@ Links --
 
 - https://medium.com/@akgol97_/building-a-restful-api-with-go-and-postgres-guide-64ccd3da6bc
 - https://medium.com/@m.romaniiuk/system-design-chat-application-1d6fbf21b372
-- https://www.hellointerview.com/learn/system-design/problem-breakdowns/whatsapp
-
 
 
