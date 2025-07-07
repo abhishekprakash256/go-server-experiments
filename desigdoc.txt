@@ -31,7 +31,6 @@ user go to registration --
 
 
 
-
 ## ✅ High-Level Design Summary
 
 ### 🔧 Tech Stack Overview
@@ -120,12 +119,11 @@ ws://yourserver/ws?session_id=abc123&username=Abhi
 ```json
 {
   "_id": ObjectId(),
-  "session_id": "abc123",
+  "chat_id": "abc123",
   "sender_name": "Abhi",
-  "content": "Hello",
-  "timestamp": ISODate(),
-  "read_by": [],
-  "delivered_to": ["Bob"]
+  "reciever": "Anny",
+  "message": "Hello",
+  "timestamp": ISODate()
 }
 ```
 
@@ -214,8 +212,31 @@ Frontend Browser (User2) <-- WS -->|           |
 
 when the user connects to the WebSocket send the user name and the chathash_id as well so the server knows where to send and receve the message 
 
+chat_id to find correct session
+
+user_one, user_two to match users
+
+Route the message to both connections
+
+Save message to DB immediately (preserve order)
+
+The message sample --- > 
+
+{
+  "_id": ObjectId(),
+  "chat_id": "abc123",
+  "sender_name": "Abhi",
+  "receiver_name": "Anny",
+  "message": "Hello",
+  "timestamp": ISODate("2025-07-06T15:00:00Z"),
+  "read": TRUE  // null if not read
+}
 
 
+
+| message_id | chat_id | sender_name | receiver_name | message | timestamp          | read |
+|------------|---------|-------------|----------------|---------|---------------------|------|
+| ...        | abc123  | "Abhi"      | "Anny"         | "Hello" | 2025-07-06 15:00:00 | TRUE |
 
 
 
