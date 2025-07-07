@@ -37,7 +37,7 @@ user go to registration --
 
 | Component | Technology                    |
 | --------- | ----------------------------- |
-| Frontend  | Next.js, WebSocket (react-use-WebSocket)           |
+| Frontend  | Next.js, WebSocket (react-use-WebSocket)  |
 | Backend   | Go (with Gorilla WebSocket)   |
 | DB        | postgresql |
 | Cache     | Redis (session/user/presence) |
@@ -198,6 +198,12 @@ The frontend opens a WebSocket connection in the browser and then get ready to a
 meawhile save the message as well for  each other and keep the order correct 
 two tables can be used one login table - or can be used also as message routing to find the other member, messages can be stored in the message table 
 broadcast the message so both can see the message also to the coorect member can see the message as well , use the chathash_id and user1 , user2  
+The redis give the unque hash for chat_id 
+the first_user and second_user has different name , the name will be encrypted before storage 
+for the conncetion the name and the chat_id will be used 
+
+
+
 
 
 ## The arhitecture diagram
@@ -238,6 +244,19 @@ The message sample --- >
 |------------|---------|-------------|----------------|---------|---------------------|------|
 | ...        | abc123  | "Abhi"      | "Anny"         | "Hello" | 2025-07-06 15:00:00 | TRUE |
 
+
+
+The read reciept -- 
+
+- it works by detection of the user open of the screen , scroll of screen , hover on the screen, called as viewoport detection
+- then frontenmd sends a read_recipt to server and server update it on the db 
+- sender frontend reciever the read_ack that the notification has been recieved , this all happens with the WebSocket so it's bidirectional
+
+
+
+Later -- 
+user is online 
+and the message notification
 
 
 
