@@ -466,6 +466,16 @@ HSET session:<chat_id>:<user_B> notify 0
 * ⚡ **Fast lookup** for unread messages using Redis + DB.
 
 
+The user detection -- 
+
+- the clinet will use hearbeat protocol to deetcet the last_seen stamp and ws_connection as well 
+- Frontend WebSocket client sends heartbeat every 30 seconds:
+- For every heartbeat received:
+- Update last_seen in Redis.
+- Keep ws_connected = 1.
+- Backend also starts a timeout timer:
+- If no heartbeat is received in e.g. 45 seconds → set ws_connected = 0.
+
 
 
 
