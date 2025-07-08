@@ -312,8 +312,65 @@ HSET session:abc123:Abhi ws_connected 1
 HSET session:abc123:Abhi notify 0
 
 
-To maintain the session cache we use redis and the hash keeps on increasing the number of the user increases with per user one hash and the name -
-and the fields are there to store the value like - chat_id, user, last_seen, ws_connected, notify ( the message that are not read )
+
+To maintain session cache, we use **Redis**, where each user in a chat has a dedicated **Hash** stored under a key like:
+
+```
+session:<chat_id>:<username>
+```
+
+Each hash stores the following fields:
+
+* `chat_id`: Unique identifier for the chat room
+* `user`: The user's name or ID
+* `last_seen`: Timestamp of last activity (can be updated on screen focus/movement or disconnection)
+* `ws_connected`: `1` if the user's WebSocket is currently connected, `0` if disconnected
+* `notify`: `1` if the user has unread messages, `0` if all messages are read , also check the user movement and the screen 
+
+---
+
+### 🧠 **Update Triggers:**
+
+* **`ws_connected`** is updated:
+
+  * Set to `1` when the user **connects via WebSocket**
+  * Set to `0` when the **WebSocket disconnects**
+
+* **`notify`** is updated:
+
+  * Set to `1` when a message is sent **and the recipient is offline** (`ws_connected = 0`)
+  * Set to `0` when the user **comes back online** or **reads the message**
+
+* **`last_seen`** can be updated:
+
+  * When the user **moves the mouse**, **focuses** the browser tab, or **disconnects**
+  * Used for showing "last active" status
+
+---
+
+### ✅ Example Redis Key:
+
+```text
+session:abc123:Abhi → {
+  chat_id: abc123,
+  user: Abhi,
+  last_seen: 2025-07-08T20:00:00,
+  ws_connected: 1,
+  notify: 0
+}
+```
+
+---
+
+### ✅ Summary:
+
+| Purpose          | Redis Field    | Updated When?                             |
+| ---------------- | -------------- | ----------------------------------------- |
+| Track connection | `ws_connected` | On WebSocket open/close                   |
+| Unread messages  | `notify`       | On message send (if recipient is offline) |
+| User activity    | `last_seen`    | On user movement, blur/focus, disconnect  |
+
+
 
 
 
