@@ -280,5 +280,7 @@ Links --
 - https://medium.com/@akgol97_/building-a-restful-api-with-go-and-postgres-guide-64ccd3da6bc
 - https://medium.com/@m.romaniiuk/system-design-chat-application-1d6fbf21b372
 - https://www.npmjs.com/package/react-use-websocket
+- https://www.youtube.com/watch?v=X_DdIXrmWOo&t=102s
+
 
 
