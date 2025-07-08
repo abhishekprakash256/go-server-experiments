@@ -312,7 +312,8 @@ HSET session:abc123:Abhi ws_connected 1
 HSET session:abc123:Abhi notify 0
 
 
-
+To maintain the session cache we use redis and the hash keeps on increasing the number of the user increases with per user one hash and the name -
+and the fields are there to store the value like - chat_id, user, last_seen, ws_connected, notify ( the message that are not read )
 
 
 
