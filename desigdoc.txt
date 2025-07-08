@@ -385,6 +385,91 @@ How to check if the user if online and check the status of the user -->
 
 
 
+The case when the user get's offline and the other user sends the message and read reciepts is getting triggered -- 
+
+
+## ✅ Final Flow: Offline Message Handling and Read Receipt
+
+### 📤 1. **User A sends a message to User B**
+
+* Message is sent to the backend via WebSocket.
+* Payload contains: `chat_id`, `sender`, `receiver`, `message`, `timestamp`.
+
+---
+
+### 🗂️ 2. **Server stores the message**
+
+* **Insert** into the database (`read = false`).
+* In **Redis**, set a notify flag:
+
+```bash
+HSET session:<chat_id>:<user_B> notify 1
+```
+
+---
+
+### 🚫 3. **User B is offline**
+
+* Backend doesn't push the message.
+* WebSocket `ws_connected` is `0`.
+
+---
+
+### 🌐 4. **User B comes online**
+
+* WebSocket reconnects → backend sets:
+
+```bash
+HSET session:<chat_id>:<user_B> ws_connected 1
+```
+
+* Redis `notify = 1` signals unread messages exist.
+
+---
+
+### 📥 5. **User B fetches unread messages**
+
+* Frontend or backend queries:
+
+```sql
+SELECT * FROM messages
+WHERE chat_id = '<chat_id>' AND receiver = '<user_B>' AND read = false
+ORDER BY timestamp ASC;
+```
+
+* Backend sends these messages over WebSocket.
+
+---
+
+### 🧹 6. **After messages are fetched**
+
+* Mark messages as read in DB:
+
+```sql
+UPDATE messages
+SET read = true
+WHERE chat_id = '<chat_id>' AND receiver = '<user_B>' AND read = false;
+```
+
+* Clear Redis notify flag:
+
+```bash
+HSET session:<chat_id>:<user_B> notify 0
+```
+
+---
+
+
+* 🔁 **No message is lost**, even when the user is offline.
+* 🔕 **Notify flag is cleared** after reading.
+* 👁️ **Read receipt can be updated** reliably.
+* ⚡ **Fast lookup** for unread messages using Redis + DB.
+
+
+
+
+
+
 
 
 
