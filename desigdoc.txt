@@ -259,8 +259,42 @@ user is online
 and the message notification
 
 
+session examoles in redis for 4 users -- 
+
+| Chat ID | Users      |
+| ------- | ---------- |
+| abc123  | Abhi, Anny |
+| def456  | Bob, Cara  |
 
 
+The key and the field -- 
+
+| Redis Key             | Data Structure | Fields (example)                                                         |
+| --------------------- | -------------- | ------------------------------------------------------------------------ |
+| `session:abc123:Abhi` | Hash           | `ws_connected: 1` <br> `last_seen: 2025-07-08T20:00:00` <br> `notify: 0` |
+| `session:abc123:Anny` | Hash           | `ws_connected: 0` <br> `last_seen: 2025-07-08T19:55:00` <br> `notify: 1` |
+| `session:def456:Bob`  | Hash           | `ws_connected: 1` <br> `last_seen: 2025-07-08T20:01:00` <br> `notify: 0` |
+| `session:def456:Cara` | Hash           | `ws_connected: 0` <br> `last_seen: 2025-07-08T19:50:00` <br> `notify: 1` |
+
+
+The field description -- 
+
+| Field          | Description                                                              |
+| -------------- | ------------------------------------------------------------------------ |
+| `ws_connected` | `"1"` means user’s WebSocket is currently connected, `"0"` means offline |
+| `last_seen`    | Timestamp when user was last active or connected                         |
+| `notify`       | `"1"` means user has unread message notifications, `"0"` means none      |
+
+
+
+Table visulaization -- > 
+
+| Chat ID | User | Redis Key             | ws\_connected | last\_seen          | notify |
+| ------- | ---- | --------------------- | ------------- | ------------------- | ------ |
+| abc123  | Abhi | `session:abc123:Abhi` | 1             | 2025-07-08T20:00:00 | 0      |
+| abc123  | Anny | `session:abc123:Anny` | 0             | 2025-07-08T19:55:00 | 1      |
+| def456  | Bob  | `session:def456:Bob`  | 1             | 2025-07-08T20:01:00 | 0      |
+| def456  | Cara | `session:def456:Cara` | 0             | 2025-07-08T19:50:00 | 1      |
 
 
 
