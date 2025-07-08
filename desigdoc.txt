@@ -298,6 +298,18 @@ Table visulaization -- >
 
 
 
+Example --> 
+
+hash = abc123 , user = Abhi
+session:abc123:Abhi
+
+Store in the hash 
+
+HSET session:abc123:Abhi chat_id abc123
+HSET session:abc123:Abhi user Abhi
+HSET session:abc123:Abhi last_seen 2025-07-08T20:00:00
+HSET session:abc123:Abhi ws_connected 1
+HSET session:abc123:Abhi notify 0
 
 
 
