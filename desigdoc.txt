@@ -372,6 +372,17 @@ session:abc123:Abhi → {
 
 
 
+How to check if the user if online and check the status of the user --> 
+
+
+| Event                        | How to detect                        | What to update                                   |
+| ---------------------------- | ------------------------------------ | ------------------------------------------------ |
+| User switches tab (inactive) | `visibilitychange` event             | Optionally mark as inactive / update `last_seen` |
+| User comes back to tab       | `visibilitychange` event             | Update `last_seen` or `ws_connected`             |
+| User closes tab/window       | `beforeunload` event                 | Backend marks `ws_connected = 0`                 |
+| User interacts (mouse/key)   | `mousemove`, `keydown`, `scroll`     | Update `last_seen` timestamp                     |
+| WebSocket connection lost    | WebSocket `onclose` event on backend | Update `ws_connected = 0`                        |
+
 
 
 
