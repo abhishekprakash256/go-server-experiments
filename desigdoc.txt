@@ -518,7 +518,8 @@ The file structure of the app that can have redis and postgresql functionlaity -
 
 Add the logging abilities as well for the data to be logged 
 
-
+when deploying the code we make pull the whole repo compile the code make the binary file for the entry point and run the binary file and clear the code files 
+we use MakeFile for that process 
 
 
 
