@@ -478,6 +478,46 @@ The user detection --
 
 
 
+The file structure of the app that can have redis and postgresql functionlaity -- 
+
+/your-app
+│
+├── cmd/                   # Entrypoint(s) for app
+│   └── server/            # `main.go` lives here
+│       └── main.go
+│
+├── internal/              # Your application core (business logic)
+│   ├── websocket/         # WebSocket handling
+│   │   └── handler.go
+│   │   └── hub.go
+│   │   └── client.go
+│   │
+│   ├── redis/             # Redis interactions
+│   │   └── client.go
+│   │   └── session.go
+│   │
+│   ├── postgres/          # PostgreSQL interactions
+│   │   └── db.go
+│   │   └── user_repo.go
+│   │   └── chat_repo.go
+│   │
+│   └── service/           # Business logic layer (use cases)
+│       └── chat_service.go
+│       └── user_service.go
+│
+├── config/                # Config and env setup
+│   └── config.go
+│
+├── pkg/                   # Shared utilities
+│   └── logger/            # Logging helpers
+│   └── utils/             # Helper functions
+│
+├── go.mod
+└── README.md
+
+
+Add the logging abilities as well for the data to be logged 
+
 
 
 
