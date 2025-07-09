@@ -534,6 +534,7 @@ Links --
 - https://www.youtube.com/watch?v=X_DdIXrmWOo&t=102s
 - https://redis.io/docs/latest/develop/clients/go/           #for redis client 
 - https://pkg.go.dev/github.com/jackc/pgx/v5#AppendRows       #for pgsql 
+- https://medium.com/bitaksi-tech/object-oriented-approach-in-go-179c85486c76
 
 
 
