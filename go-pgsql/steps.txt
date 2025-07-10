@@ -1,0 +1,5 @@
+pass the config in the confg.yaml file 
+
+
+all the reading of the file will be done in the main file in the cmd 
+
