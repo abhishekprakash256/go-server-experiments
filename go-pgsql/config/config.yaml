@@ -1,7 +1,0 @@
-database:
-  host: "localhost"
-  port: 5432
-  user: "abhi"
-  password: "mysecretpassword"
-  dbname: "test_db"
-  sslmode: "disable"

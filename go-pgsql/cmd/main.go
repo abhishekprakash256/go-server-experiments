@@ -8,20 +8,22 @@ import (
 	"context"
 	"log"
 	"go-pgsql/pgsql/db/connection"
+	"go-pgsql/config"
 
 )
 
 
 func main() {
-	// the main function to get the 
 
-	host := "localhost"
-	userName := "abhi"
-	password := "mysecretpassword"
-	dbName := "test_db"
-	port := 5432
+	// the main function to eastablish the connection
 
-	conn, err := connection.ConnectPgSql(host, userName, password, dbName, port)
+	conn, err := connection.ConnectPgSql(
+		config.DefaultConfig.Host,
+		config.DefaultConfig.User,
+		config.DefaultConfig.Password,
+		config.DefaultConfig.DBName,
+		config.DefaultConfig.Port,
+	)
 
 	if err != nil {
 	log.Fatal(err)
