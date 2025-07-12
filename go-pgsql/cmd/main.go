@@ -15,7 +15,7 @@ import (
 
 
 func main() {
-	
+
 	//create the connection 
 	conn, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
@@ -26,7 +26,9 @@ func main() {
 	)
 
 	if err != nil {
-	log.Fatal(err)
+	
+		log.Fatal(err)
+	
 	}
 
 	// Create the database schema
