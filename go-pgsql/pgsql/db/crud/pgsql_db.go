@@ -7,13 +7,14 @@ import (
 	"context"
 
 	"fmt"
-	
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 
 // CreateSchema takes custom SQL strings for login and message table creation.
-func CreateSchema(pgconnector *pgxpool.Pool, loginSQL string, messageSQL string) error {
+func CreateSchema(ctx context.Context, pgconnector *pgxpool.Pool, loginSQL, messageSQL string) error {
+
 	ctx := context.Background()
 
 	if _, err := pgconnector.Exec(ctx, loginSQL); err != nil {
@@ -25,5 +26,6 @@ func CreateSchema(pgconnector *pgxpool.Pool, loginSQL string, messageSQL string)
 	}
 
 	fmt.Println("Tables created (or already exist).")
+	
 	return nil
 }
