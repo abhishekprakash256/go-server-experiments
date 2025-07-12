@@ -28,7 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	
 	// Create the database schema
 	if err := crud.CreateSchema(pool, config.LoginTableSQL, config.MessageTableSQL); err != nil {
 		log.Fatal("Schema creation failed:", err)
