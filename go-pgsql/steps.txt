@@ -33,3 +33,11 @@ docker exec -it postgres-container psql -U abhi -d test_db
 \d message
 
 
+// to see the message 
+
+use --- 
+
+SELECT * FROM message ; 
+SELECT * FROM login ; 
+
+
