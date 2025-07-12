@@ -17,26 +17,26 @@ import (
 func main() {
 
 	//create the connection 
-	conn, err := connection.ConnectPgSql(
+	pool, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
 		config.DefaultConfig.User,
 		config.DefaultConfig.Password,
 		config.DefaultConfig.DBName,
 		config.DefaultConfig.Port,
 	)
-
+	
 	if err != nil {
-	
+		
 		log.Fatal(err)
-	
+		
 	}
 
 	// Create the database schema
-	if err := crud.CreateSchema(conn, config.LoginTableSQL, config.MessageTableSQL); err != nil {
+	if err := crud.CreateSchema(pool, config.LoginTableSQL, config.MessageTableSQL); err != nil {
 		log.Fatal("Schema creation failed:", err)
 	}
 
 	// close the connection
-	defer conn.Close(context.Background())
+	defer pool.Close(context.Background())
 
 }
