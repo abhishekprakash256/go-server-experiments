@@ -261,10 +261,10 @@ and the message notification
 
 session examoles in redis for 4 users -- 
 
-| Chat ID | Users      |
-| ------- | ---------- |
-| abc123  | Abhi, Anny |
-| def456  | Bob, Cara  |
+| Chat ID | Users_1 | Users_2 |
+| ------- | --------|----------
+| abc123  | Abhi    | Anny    |
+| def456  | Bob     | Cara    |
 
 
 The key and the field -- 
