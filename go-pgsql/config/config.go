@@ -2,7 +2,6 @@ package config
 
 
 
-
 type DBConfig struct {
 	Host     string
 	User     string
@@ -10,6 +9,7 @@ type DBConfig struct {
 	DBName   string
 	Port     int
 }
+
 
 var DefaultConfig = DBConfig{
 	Host:     "localhost",
@@ -19,6 +19,7 @@ var DefaultConfig = DBConfig{
 	Port:     5432,
 }
 
+
 // SQL to create the login table
 var LoginTableSQL = `
 CREATE TABLE IF NOT EXISTS login (
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS login (
   users_1     TEXT NOT NULL,
   users_2     TEXT NOT NULL
 );`
+
 
 // SQL to create the message table
 var MessageTableSQL = `
