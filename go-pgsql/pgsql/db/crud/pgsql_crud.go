@@ -7,3 +7,6 @@ sample data
 | ...        | abc123  | "Abhi"      | "Anny"         | "Hello" | 2025-07-06 15:00:00 | TRUE |
 
 */
+
+package crud
+

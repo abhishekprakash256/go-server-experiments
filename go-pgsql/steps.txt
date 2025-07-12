@@ -16,4 +16,20 @@ docker run -d --name postgres-container \
 
 the config file has the data for connection 
 
+the database name is -- test_db
+the table name is -- loginTable , messageTable
+
+// ---- to get the docker conatainer information 
+
+// --------------------
+docker exec -it postgres-container psql -U abhi -d test_db
+
+
+// ------- see the tables ---- 
+\dt 
+
+// ---------- list of relatives 
+\d login 
+\d message
+
 

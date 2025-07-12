@@ -9,6 +9,7 @@ import (
 	"log"
 	"go-pgsql/pgsql/db/connection"
 	"go-pgsql/config"
+	"go-pgsql/pgsql/db/crud"
 
 )
 
@@ -17,6 +18,7 @@ func main() {
 
 	// the main function to eastablish the connection
 
+	//create the connection 
 	conn, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
 		config.DefaultConfig.User,
@@ -28,6 +30,12 @@ func main() {
 	if err != nil {
 	log.Fatal(err)
 	}
+
+	// Create the database schema
+	if err := crud.CreateSchema(conn, config.LoginTableSQL, config.MessageTableSQL); err != nil {
+		log.Fatal("Schema creation failed:", err)
+	}
+	// close the connection
 	defer conn.Close(context.Background())
 
 }
