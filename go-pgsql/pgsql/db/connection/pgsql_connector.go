@@ -19,7 +19,7 @@ func ConnectPgSql(host, userName, password, dbName string, port int) (*pgxpool.P
 
 	// Connect to PostgreSQL
 	pool, err := pgxpool.New(context.Background(), connStr)
-
+	
 	// get the error
 	if err != nil {
 		log.Fatal(" Failed to connect:", err)

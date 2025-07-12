@@ -15,8 +15,9 @@ import (
 
 
 func main() {
+	ctx := context.Background()
 
-	//create the connection 
+	// Create the connection pool
 	pool, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
 		config.DefaultConfig.User,
@@ -24,19 +25,18 @@ func main() {
 		config.DefaultConfig.DBName,
 		config.DefaultConfig.Port,
 	)
-	
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	
+
 	// Create the database schema
-	ctx := context.Background()
-	err := crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL)
+	err = crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL)
 	if err != nil {
 		log.Fatal("Schema creation failed:", err)
 	}
 
-	// close the connection
-	defer pool.Close(context.Background())
-
+	defer pool.Close() // <-- closes only when app shuts down
 }

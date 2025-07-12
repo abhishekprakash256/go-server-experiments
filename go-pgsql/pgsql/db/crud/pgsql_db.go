@@ -21,6 +21,6 @@ func CreateSchema(ctx context.Context, pgconnector *pgxpool.Pool, loginSQL, mess
 		return fmt.Errorf("failed to create message table: %w", err)
 	}
 
-	fmt.Println("✅ Tables created (or already exist).")
+	fmt.Println("Tables created (or already exist).")
 	return nil
 }
