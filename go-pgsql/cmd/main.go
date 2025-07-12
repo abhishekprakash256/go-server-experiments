@@ -15,7 +15,7 @@ import (
 
 
 func main() {
-
+	
 	//create the connection 
 	pool, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
@@ -24,9 +24,9 @@ func main() {
 		config.DefaultConfig.DBName,
 		config.DefaultConfig.Port,
 	)
-	
+
 	if err != nil {
-		
+
 		log.Fatal(err)
 		
 	}
