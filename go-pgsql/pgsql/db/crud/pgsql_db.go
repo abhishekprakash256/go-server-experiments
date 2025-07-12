@@ -14,9 +14,9 @@ import (
 
 // CreateSchema takes custom SQL strings for login and message table creation.
 func CreateSchema(ctx context.Context, pgconnector *pgxpool.Pool, loginSQL, messageSQL string) error {
-	
-	ctx := context.Background()
 
+	ctx := context.Background()
+	
 	if _, err := pgconnector.Exec(ctx, loginSQL); err != nil {
 		return fmt.Errorf("Failed to create login table: %w", err)
 	}
