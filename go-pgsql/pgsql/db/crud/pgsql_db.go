@@ -1,31 +1,26 @@
 // the function to make the table and schema 
 
 
-package crud 
+package crud
 
 import (
 	"context"
-
 	"fmt"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-
-// CreateSchema takes custom SQL strings for login and message table creation.
+// CreateSchema takes custom SQL strings for login and message table creation,
+// and uses the provided context properly.
 func CreateSchema(ctx context.Context, pgconnector *pgxpool.Pool, loginSQL, messageSQL string) error {
-	
-	ctx := context.Background()
-	
 	if _, err := pgconnector.Exec(ctx, loginSQL); err != nil {
-		return fmt.Errorf("Failed to create login table: %w", err)
+		return fmt.Errorf("failed to create login table: %w", err)
 	}
 
 	if _, err := pgconnector.Exec(ctx, messageSQL); err != nil {
-		return fmt.Errorf("Failed to create message table: %w", err)
+		return fmt.Errorf("failed to create message table: %w", err)
 	}
 
-	fmt.Println("Tables created (or already exist).")
-
+	fmt.Println("✅ Tables created (or already exist).")
 	return nil
 }
