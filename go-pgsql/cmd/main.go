@@ -39,6 +39,3 @@ func main() {
 	defer conn.Close(context.Background())
 
 }
-
-
-
