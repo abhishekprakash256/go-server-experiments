@@ -25,5 +25,5 @@ func CreateSchema(pgconnector *pgxpool.Pool, loginSQL string, messageSQL string)
 	}
 
 	fmt.Println("Tables created (or already exist).")
-	return nil
+	return pool , nil
 }

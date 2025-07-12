@@ -15,8 +15,6 @@ import (
 
 
 func main() {
-
-	// the main function to establish the connection
 	
 	//create the connection 
 	conn, err := connection.ConnectPgSql(
@@ -35,6 +33,7 @@ func main() {
 	if err := crud.CreateSchema(conn, config.LoginTableSQL, config.MessageTableSQL); err != nil {
 		log.Fatal("Schema creation failed:", err)
 	}
+
 	// close the connection
 	defer conn.Close(context.Background())
 
