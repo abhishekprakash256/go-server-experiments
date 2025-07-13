@@ -59,10 +59,12 @@ func main() {
 		Timestamp:    time.Now(),
 		Read:         false,
 	}
+
+	// Insert the message data
 	if !crud.InsertMessageData(ctx, "message", pool, msg) {
 		log.Println("Insert into message failed")
 	}
-	
+
 	// Step 5: Retrieve login data
 	retrievedLogin, err := crud.GetLoginData(ctx, "login", pool, "abc123")
 	if err != nil {
