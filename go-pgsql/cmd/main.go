@@ -18,7 +18,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-
+	
 	// Create the connection pool
 	pool, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
