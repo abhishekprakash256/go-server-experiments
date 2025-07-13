@@ -74,7 +74,7 @@ func main() {
 	} else {
 		fmt.Printf("Login for chat %s: %s & %s\n", retrievedLogin.ChatID, retrievedLogin.UserOne, retrievedLogin.UserTwo)
 	}
-
+	
 	// Step 6: Retrieve message data
 	messages := crud.GetMessageData(ctx, "message", pool, "abc123", "Abhi")
 
@@ -95,7 +95,7 @@ func main() {
 	if !crud.DeleteLoginData( ctx, "login" , pool, "abc123") {
 		log.Println("Delete login data failed")
 	}
-	
+
 	//Done with the operation
 	log.Println("Data operation done successfully")
 }
