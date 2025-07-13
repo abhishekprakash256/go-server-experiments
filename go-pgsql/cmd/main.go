@@ -28,6 +28,7 @@ func main() {
 		config.DefaultConfig.Port,
 	)
 	
+	// The connection failed
 	if err != nil {
 		log.Fatal("DB connection failed:", err)
 	}
@@ -37,7 +38,7 @@ func main() {
 	if err := crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL); err != nil {
 		log.Fatal("Schema creation failed:", err)
 	}
-
+	
 	// Test login data
 	login := crud.LoginData{
 		ChatID:  "abc123",
@@ -90,7 +91,7 @@ func main() {
 	}
 	
 	// Test delete login data
-	
+
 	if !crud.DeleteLoginData( ctx, "login" , pool, "abc123") {
 		log.Println("Delete login data failed")
 	}
