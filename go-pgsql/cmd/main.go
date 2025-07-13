@@ -7,6 +7,7 @@ import (
 
 	"context"
 	"log"
+	
 	"time"
 	"go-pgsql/pgsql/db/connection"
 	"go-pgsql/config"
@@ -26,51 +27,49 @@ func main() {
 		config.DefaultConfig.DBName,
 		config.DefaultConfig.Port,
 	)
-
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("DB connection failed:", err)
 	}
+	defer pool.Close() // Ensures pool is closed when program exits
 
-	
 	// Create the database schema
-	err = crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL)
-	if err != nil {
+	if err := crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL); err != nil {
 		log.Fatal("Schema creation failed:", err)
 	}
 
-	//test login data
-
+	// Test login data
 	login := crud.LoginData{
-	ChatID:  "abc123",
-	UserOne: "Abhi",
-	UserTwo: "Anny",
+		ChatID:  "abc123",
+		UserOne: "Abhi",
+		UserTwo: "Anny",
 	}
-
-
-	ok := crud.InsertLoginData(ctx, "login", pool, login)
-
-	if !ok {
+	if !crud.InsertLoginData(ctx, "login", pool, login) {
 		log.Println("Insert into login failed")
 	}
 
-	// test message 
-
+	// Test message data
 	msg := crud.MessageData{
-	ChatID:       "abc123",
-	SenderName:   "Abhi",
-	ReceiverName: "Anny",
-	Message:      "Hello from Go!",
-	Timestamp:    time.Now(),
-	Read:         false,
+		ChatID:       "abc123",
+		SenderName:   "Abhi",
+		ReceiverName: "Anny",
+		Message:      "Hello from Go!",
+		Timestamp:    time.Now(),
+		Read:         false,
+	}
+	if !crud.InsertMessageData(ctx, "message", pool, msg) {
+		log.Println("Insert into message failed")
 	}
 
-	// insert the message 
-	ok = crud.InsertMessage(ctx, "message", pool, msg)
-	if !ok {
-		log.Println("Insert failed")
+	// Test delete message data
+	if !crud.DeleteMessageData(ctx, "message", pool, "abc123") {
+		log.Println("Delete message failed")
+	}
+
+	// Test delete login data
+	if !crud.DeleteLoginData( ctx, "login" , pool, "abc123") {
+		log.Println("Delete login data failed")
 	}
 
 
-
-	defer pool.Close() // <-- closes only when app shuts down
+	log.Println("Data operation done successfully")
 }

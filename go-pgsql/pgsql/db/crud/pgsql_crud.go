@@ -59,7 +59,7 @@ func InsertLoginData(ctx context.Context, tableName string, pgconnector *pgxpool
 
 
 
-func InsertMessage(ctx context.Context, tableName string, pgconnector *pgxpool.Pool, data MessageData) bool {
+func InsertMessageData(ctx context.Context, tableName string, pgconnector *pgxpool.Pool, data MessageData) bool {
 
 	// insert the data into the message table
 
@@ -87,3 +87,40 @@ func InsertMessage(ctx context.Context, tableName string, pgconnector *pgxpool.P
 	fmt.Println("Message inserted")
 	return true
 }
+
+
+func DeleteLoginData(ctx context.Context, tableName string, pgconnector *pgxpool.Pool, chatID string) bool {
+
+	// delete the message per id
+
+	query := fmt.Sprintf(`DELETE FROM %s WHERE chat_id = $1`, tableName)
+
+	_, err := pgconnector.Exec(ctx, query, chatID)
+	
+	if err != nil {
+		fmt.Println("Delete failed:", err)
+		return false
+	}
+
+	fmt.Println("Login data deleted for chat_id:", chatID)
+	return true
+}
+
+
+func DeleteMessageData(ctx context.Context, tableName string, pgconnector *pgxpool.Pool, chatID string) bool {
+
+	// delete the message per id
+
+	query := fmt.Sprintf(`DELETE FROM %s WHERE chat_id = $1`, tableName)
+
+	_, err := pgconnector.Exec(ctx, query, chatID)
+
+	if err != nil {
+		fmt.Println("Delete failed:", err)
+		return false
+	}
+
+	fmt.Println("Messages deleted for chat_id:", chatID)
+	return true
+}
+
