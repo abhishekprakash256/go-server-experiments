@@ -38,7 +38,7 @@ func main() {
 	if err := crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL); err != nil {
 		log.Fatal("Schema creation failed:", err)
 	}
-	
+
 	// Test login data
 	login := crud.LoginData{
 		ChatID:  "abc123",
@@ -85,13 +85,11 @@ func main() {
 	}
 
 	// Test delete message data
-
 	if !crud.DeleteMessageData(ctx, "message", pool, "abc123") {
 		log.Println("Delete message failed")
 	}
 	
 	// Test delete login data
-
 	if !crud.DeleteLoginData( ctx, "login" , pool, "abc123") {
 		log.Println("Delete login data failed")
 	}
