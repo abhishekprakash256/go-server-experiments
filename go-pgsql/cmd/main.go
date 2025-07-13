@@ -37,6 +37,7 @@ func main() {
 
 	// Create the database schema
 	if err := crud.CreateSchema(ctx, pool, config.LoginTableSQL, config.MessageTableSQL); err != nil {
+
 		log.Fatal("Schema creation failed:", err)
 	}
 
@@ -74,7 +75,7 @@ func main() {
 	} else {
 		fmt.Printf("Login for chat %s: %s & %s\n", retrievedLogin.ChatID, retrievedLogin.UserOne, retrievedLogin.UserTwo)
 	}
-	
+
 	// Step 6: Retrieve message data
 	messages := crud.GetMessageData(ctx, "message", pool, "abc123", "Abhi")
 
