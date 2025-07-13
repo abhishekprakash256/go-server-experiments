@@ -1,5 +1,4 @@
 // the main file to ingest the data
-
 package main 
 
 
@@ -28,6 +27,7 @@ func main() {
 		config.DefaultConfig.DBName,
 		config.DefaultConfig.Port,
 	)
+	
 	if err != nil {
 		log.Fatal("DB connection failed:", err)
 	}
@@ -44,6 +44,8 @@ func main() {
 		UserOne: "Abhi",
 		UserTwo: "Anny",
 	}
+	
+	// login the data
 	if !crud.InsertLoginData(ctx, "login", pool, login) {
 		log.Println("Insert into login failed")
 	}
@@ -71,21 +73,25 @@ func main() {
 
 	// Step 6: Retrieve message data
 	messages := crud.GetMessageData(ctx, "message", pool, "abc123", "Abhi")
+
+	// print the message data
+	fmt.Printf("Messages: %+v\n", messages)
+
 	for _, m := range messages {
-		fmt.Printf("Message from %s to %s: %s\n", m.SenderName, m.ReceiverName, m.Message)
+		fmt.Printf("Message from %s to %s: %s\n", m.SenderName, m.ReceiverName, m.Message , m.Timestamp , m.Read)
 	}
 
-
 	// Test delete message data
+
 	if !crud.DeleteMessageData(ctx, "message", pool, "abc123") {
 		log.Println("Delete message failed")
 	}
-
+	
 	// Test delete login data
+	
 	if !crud.DeleteLoginData( ctx, "login" , pool, "abc123") {
 		log.Println("Delete login data failed")
 	}
-
-
+	
 	log.Println("Data operation done successfully")
 }
