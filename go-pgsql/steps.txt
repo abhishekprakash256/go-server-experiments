@@ -40,7 +40,3 @@ use ---
 SELECT * FROM message ; 
 SELECT * FROM login ; 
 
-
-
-
-using the duckdb olap to 
