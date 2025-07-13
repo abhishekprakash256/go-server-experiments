@@ -1,5 +1,5 @@
 // the main file to ingest the data
-package main 
+package main
 
 
 import (
