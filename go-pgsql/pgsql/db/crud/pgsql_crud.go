@@ -37,6 +37,10 @@ type MessageData struct {
 }
 
 
+//get message with user and chatid 
+
+//get login with chatID 
+
 
 
 // InsertLoginData inserts a row into the login table.
