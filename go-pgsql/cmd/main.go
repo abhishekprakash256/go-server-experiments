@@ -18,7 +18,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	
+
 	// Create the connection pool
 	pool, err := connection.ConnectPgSql(
 		config.DefaultConfig.Host,
@@ -96,5 +96,6 @@ func main() {
 		log.Println("Delete login data failed")
 	}
 
+	//Done with the operation
 	log.Println("Data operation done successfully")
 }
