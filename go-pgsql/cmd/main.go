@@ -90,11 +90,10 @@ func main() {
 	}
 	
 	// Test delete login data
-
+	
 	if !crud.DeleteLoginData( ctx, "login" , pool, "abc123") {
 		log.Println("Delete login data failed")
 	}
 
 	log.Println("Data operation done successfully")
 }
-
