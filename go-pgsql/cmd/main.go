@@ -32,6 +32,7 @@ func main() {
 	if err != nil {
 		log.Fatal("DB connection failed:", err)
 	}
+	
 	defer pool.Close() // Ensures pool is closed when program exits
 
 	// Create the database schema
@@ -60,7 +61,7 @@ func main() {
 		Timestamp:    time.Now(),
 		Read:         false,
 	}
-
+	
 	// Insert the message data
 	if !crud.InsertMessageData(ctx, "message", pool, msg) {
 		log.Println("Insert into message failed")
