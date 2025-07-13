@@ -7,6 +7,7 @@ import (
 
 	"context"
 	"log"
+	"fmt"
 	
 	"time"
 	"go-pgsql/pgsql/db/connection"
@@ -52,13 +53,28 @@ func main() {
 		ChatID:       "abc123",
 		SenderName:   "Abhi",
 		ReceiverName: "Anny",
-		Message:      "Hello from Go!",
+		Message:      "Hello There!",
 		Timestamp:    time.Now(),
 		Read:         false,
 	}
 	if !crud.InsertMessageData(ctx, "message", pool, msg) {
 		log.Println("Insert into message failed")
 	}
+
+	// Step 5: Retrieve login data
+	retrievedLogin, err := crud.GetLoginData(ctx, "login", pool, "abc123")
+	if err != nil {
+		log.Println("Login not found:", err)
+	} else {
+		fmt.Printf("Login for chat %s: %s & %s\n", retrievedLogin.ChatID, retrievedLogin.UserOne, retrievedLogin.UserTwo)
+	}
+
+	// Step 6: Retrieve message data
+	messages := crud.GetMessageData(ctx, "message", pool, "abc123", "Abhi")
+	for _, m := range messages {
+		fmt.Printf("Message from %s to %s: %s\n", m.SenderName, m.ReceiverName, m.Message)
+	}
+
 
 	// Test delete message data
 	if !crud.DeleteMessageData(ctx, "message", pool, "abc123") {

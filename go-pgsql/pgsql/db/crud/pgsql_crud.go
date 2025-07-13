@@ -28,6 +28,7 @@ type LoginData struct {
 
 
 type MessageData struct {
+	MessageID    int
 	ChatID       string
 	SenderName   string
 	ReceiverName string
@@ -37,9 +38,47 @@ type MessageData struct {
 }
 
 
-//get message with user and chatid 
 
-//get login with chatID 
+func GetMessageData(ctx context.Context, tableName string, pgconnector *pgxpool.Pool, chatID string, user string) []MessageData {
+	query := fmt.Sprintf(`SELECT message_id, chat_id, sender_name, receiver_name, message, timestamp, read 
+	                      FROM %s 
+	                      WHERE chat_id = $1 AND (sender_name = $2 OR receiver_name = $2) 
+	                      ORDER BY timestamp`, tableName)
+
+	rows, err := pgconnector.Query(ctx, query, chatID, user)
+	if err != nil {
+		fmt.Println("Query failed:", err)
+		return nil
+	}
+	defer rows.Close()
+
+	var messages []MessageData
+	for rows.Next() {
+		var msg MessageData
+		err := rows.Scan(&msg.MessageID, &msg.ChatID, &msg.SenderName, &msg.ReceiverName, &msg.Message, &msg.Timestamp, &msg.Read)
+		if err != nil {
+			fmt.Println("Row scan failed:", err)
+			continue
+		}
+		messages = append(messages, msg)
+	}
+
+	return messages
+}
+
+
+
+func GetLoginData(ctx context.Context, tableName string, pgconnector *pgxpool.Pool, chatID string) (LoginData, error) {
+	query := fmt.Sprintf(`SELECT chat_id, users_1, users_2 FROM %s WHERE chat_id = $1`, tableName)
+
+	var data LoginData
+	err := pgconnector.QueryRow(ctx, query, chatID).Scan(&data.ChatID, &data.UserOne, &data.UserTwo)
+	if err != nil {
+		return LoginData{}, fmt.Errorf("login data not found: %w", err)
+	}
+
+	return data, nil
+}
 
 
 
