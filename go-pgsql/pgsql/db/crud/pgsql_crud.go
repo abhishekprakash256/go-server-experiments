@@ -8,6 +8,7 @@ sample data
 
 */
 
+
 package crud
 
 import (
@@ -91,6 +92,8 @@ func InsertLoginData(ctx context.Context, tableName string, pgconnector *pgxpool
 	`, tableName)
 
 	_, err := pgconnector.Exec(ctx, query, data.ChatID, data.UserOne, data.UserTwo)
+	
+
 	if err != nil {
 		fmt.Println("Insert into login failed:", err)
 		return false
@@ -164,6 +167,6 @@ func DeleteMessageData(ctx context.Context, tableName string, pgconnector *pgxpo
 	}
 
 	fmt.Println("Messages deleted for chat_id:", chatID)
+	
 	return true
 }
-
