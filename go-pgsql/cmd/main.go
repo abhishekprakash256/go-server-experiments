@@ -61,7 +61,7 @@ func main() {
 		Timestamp:    time.Now(),
 		Read:         false,
 	}
-	
+
 	// Insert the message data
 	if !crud.InsertMessageData(ctx, "message", pool, msg) {
 		log.Println("Insert into message failed")
@@ -81,6 +81,7 @@ func main() {
 	// print the message data
 	fmt.Printf("Messages: %+v\n", messages)
 
+	// to print the message from the database
 	for _, m := range messages {
 		fmt.Printf("Message from %s to %s: %s\n", m.SenderName, m.ReceiverName, m.Message , m.Timestamp , m.Read)
 	}
