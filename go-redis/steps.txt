@@ -1,0 +1,5 @@
+start the redis docker container 
+
+--> 
+docker run -d --name redis --network my_network -p 6379:6379 redis:latest
+
