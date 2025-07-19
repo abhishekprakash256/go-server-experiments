@@ -32,7 +32,8 @@ func main() {
 	sessionKey := "session:abc123:Abhi"
 	session := config.SessionData{
 		ChatID:      "abc123",
-		User:        "Abhi",
+		Sender:        "Abhi",
+		Reciever: 		"Anny",
 		LastSeen:    time.Now(),
 		WSConnected: 1,
 		Notify:      0,

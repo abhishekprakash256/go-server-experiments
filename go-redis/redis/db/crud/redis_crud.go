@@ -26,7 +26,8 @@ func StoreSessionData(ctx context.Context, rdb *redis.Client, key string, data c
 
 	err:= rdb.HSet(ctx, key, map[string]interface{}{
 		"chat_id":      data.ChatID,
-		"user":         data.User,
+		"sender":         data.Sender,
+		"reciever":       data.Reciever , 
 		"last_seen":    data.LastSeen.Format(time.RFC3339),
 		"ws_connected": data.WSConnected,
 		"notify":       data.Notify,
@@ -66,7 +67,8 @@ func GetSessionData(ctx context.Context, rdb *redis.Client, key string) (config.
 
 	return config.SessionData{
 		ChatID:      result["chat_id"],
-		User:        result["user"],
+		Sender:        result["sender"],
+		Reciever:      result["reciever"],
 		LastSeen:    lastSeen,
 		WSConnected: wsConnected,
 		Notify:      notify,

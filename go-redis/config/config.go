@@ -23,7 +23,8 @@ var DefaultConfig = DBConfig{
 
 type SessionData struct {
 	ChatID      string
-	User        string
+	Sender       string
+	Reciever	string
 	LastSeen    time.Time
 	WSConnected int
 	Notify      int

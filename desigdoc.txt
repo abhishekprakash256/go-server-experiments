@@ -204,6 +204,16 @@ for the conncetion the name and the chat_id will be used
 
 
 
+#Routing Mechanism 
+
+- what identifications we have for user 
+  - chat_id , user name -> session_id (session:abc123:Abhi) store in the redis , we can get by user_name and chat_id combine and make it 
+  - How to know the other person to deliver the message -> use redis get chatid and reciver name 
+  - whenever the login happens initilaize the session in redis ? with other user as well ? sender and reciever name as well 
+
+
+
+
 
 
 ## The arhitecture diagram

@@ -27,7 +27,8 @@ func main() {
 
 	data1 := map[string]interface{}{
 		"chat_id":      "abc123",
-		"user":         "Abhi",
+		"sender":        "Abhi",
+		"reciever" :     "Anny",
 		"last_seen":    time.Now().Format(time.RFC3339), // or use hardcoded string
 		"ws_connected": 1,
 		"notify":       0,
@@ -35,7 +36,8 @@ func main() {
 
 	data2 := map[string]interface{}{
 		"chat_id":      "abc123",
-		"user":         "Anny",
+		"sender":        "Anny",
+		"reciever":		"Abhi",
 		"last_seen":    time.Now().Format(time.RFC3339), // or use hardcoded string
 		"ws_connected": 0,
 		"notify":       1,
