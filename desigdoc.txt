@@ -204,15 +204,116 @@ for the conncetion the name and the chat_id will be used
 
 
 
-#Routing Mechanism 
+Routing Mechanism for chat session manager -->
 
 - what identifications we have for user 
-  - chat_id , user name -> session_id (session:abc123:Abhi) store in the redis , we can get by user_name and chat_id combine and make it 
+  - chat_id , user name -> session_id (session:abc123:Abhi) store in the redis , we can get by sender_name and chatid 
   - How to know the other person to deliver the message -> use redis get chatid and reciver name 
+  - When the person join the chat sesion , the first time session is initilaized and hearbeat protocol for updating the connection and data is saved in redis 
+  - After joining the session just start the hearbeat protocol and check for the connection if connected
+  - When the logout button clicked stop the hearbeat protocol  
   - whenever the login happens initilaize the session in redis ? with other user as well ? sender and reciever name as well 
 
 
+The session storage in the redis --> 
+```
+type SessionData struct {
+	ChatID      string
+	Sender       string
+	Reciever	string
+	LastSeen    time.Time
+	WSConnected int
+	Notify      int
+}
+```
 
+
+
+
+Your proposed **Routing Mechanism for the Chat Session Manager** is well-structured. Here's a breakdown of your plan along with **recommendations**, **clarifications**, and a clean **flowchart-style explanation**:
+
+---
+
+## ✅ **Core Identifiers**
+
+* `ChatID` → Identifies the conversation room.
+* `UserName` (Sender/Receiver) → Identifies the individual.
+* `SessionKey` → `session:<chat_id>:<user>` used as the **Redis key**.
+
+Example key:
+
+```redis
+session:abc123:Abhi
+```
+
+---
+
+## 🧠 **Redis Session Schema**
+
+You defined:
+
+```go
+type SessionData struct {
+	ChatID      string
+	Sender      string
+	Receiver    string
+	LastSeen    time.Time
+	WSConnected int  // 1 = connected, 0 = disconnected
+	Notify      int  // 1 = send notification, 0 = don't
+}
+```
+
+✅ This is perfect for storing per-user session info.
+
+---
+
+## 🔁 **Chat Session Flow**
+
+### 1. **User Login**
+
+* Client authenticates.
+* `session:<chatID>:<sender>` is initialized with:
+
+  * `WSConnected = 1`
+  * `LastSeen = now`
+* Also store receiver’s session stub if not present (`WSConnected = 0`, `Notify = 0`).
+
+✅ Yes, **initialize both sender and receiver's session** during login.
+
+
+### 2. **User Joins Chat Session**
+
+* WebSocket connection established.
+* Start **heartbeat** every 30s:
+
+  * Update `LastSeen`
+  * Keep `WSConnected = 1`
+
+
+
+### 3. **Sending Messages**
+
+* Sender sends message → server gets `chatID` and `receiver name`.
+* Look up Redis key: `session:<chatID>:<receiver>`
+* Check `WSConnected`:
+
+  * If `1`: Push via WebSocket.
+  * If `0`: Set `Notify = 1` for later delivery/alert.
+
+
+
+### 4. **Logout / Disconnect**
+
+* Stop heartbeat.
+* Set `WSConnected = 0`, update `LastSeen`.
+
+
+### 5. **Receiver Reconnects**
+
+* On reconnect/login:
+
+  * Check `Notify == 1` → trigger client-side message polling or push.
+  * Reset `Notify = 0`.
 
 
 
