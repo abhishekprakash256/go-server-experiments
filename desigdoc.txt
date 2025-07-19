@@ -363,7 +363,8 @@ Each hash stores the following fields:
 ```text
 session:abc123:Abhi → {
   chat_id: abc123,
-  user: Abhi,
+  sender: Abhi,
+  reciver: Anny,
   last_seen: 2025-07-08T20:00:00,
   ws_connected: 1,
   notify: 0
