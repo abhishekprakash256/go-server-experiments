@@ -43,7 +43,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println("Write error:", err)
 			break
-		}
+		}		
 	}
 }
 
