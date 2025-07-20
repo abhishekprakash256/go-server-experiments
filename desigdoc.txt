@@ -634,7 +634,80 @@ when deploying the code we make pull the whole repo compile the code make the bi
 we use MakeFile for that process 
 
 
+In a WebSocket-based chat system:
 
+### 🔹 When a user joins a chat room (e.g., `chat_id = abc123`):
+
+* They **open a WebSocket connection** to your backend like:
+
+```
+ws://example.com/ws?chat_id=abc123&sender=UserA&receiver=UserB
+```
+
+* On the backend, this connection is stored in memory like:
+
+```go
+key := fmt.Sprintf("%s:%s", chatID, sender)
+activeConnections[key] = conn
+```
+
+This means **each user gets their own WebSocket session** identified by:
+
+* `chat_id`
+* `user` (sender)
+
+---
+
+## 🌐 What About the Frontend URL?
+
+You can standardize the frontend route for both users using just the `chat_id`:
+
+```
+example.com/chat/abc123
+```
+
+### 🔁 Frontend handles which user is currently viewing:
+
+**How it works:**
+
+* When the frontend is rendered:
+
+  * You know the current user is `UserA` (via login/session).
+  * The other user (`UserB`) is determined via API (e.g., `/api/chat/abc123 → returns participants`).
+* You build the WebSocket URL dynamically:
+
+```js
+const ws = new WebSocket(
+  `ws://example.com/ws?chat_id=abc123&sender=UserA&receiver=UserB`
+);
+```
+
+### 🔒 You don’t need two frontend routes (`/chat/abc123` is enough).
+
+The backend handles routing the messages based on the sender/receiver from the WebSocket query params.
+
+---
+
+## 📦 Sample: Redis + In-Memory Storage Summary
+
+| Component        | Usage                                      |
+| ---------------- | ------------------------------------------ |
+| `/chat/abc123`   | Same route for both users                  |
+| WebSocket URL    | Includes `chat_id`, `sender`, `receiver`   |
+| Redis key        | `session:<chat_id>:<user>`                 |
+| In-memory conn   | `map[<chat_id>:<user>] => *websocket.Conn` |
+| Message delivery | Looks up receiver key and sends message    |
+
+---
+
+## 🔁 When Message Is Sent
+
+```plaintext
+User A sends → Server gets `receiver=UserB` →
+→ Looks up `abc123:UserB` in activeConnections →
+→ If connected: Write to WebSocket
+→ Else: Save to Redis + set notify = 1
+```
 
 
 
@@ -648,5 +721,11 @@ Links --
 - https://pkg.go.dev/github.com/jackc/pgx/v5#AppendRows       #for pgsql 
 - https://medium.com/bitaksi-tech/object-oriented-approach-in-go-179c85486c76
 - https://arshsharma.com/posts/2024-12-16-oops-golang/
+- https://www.youtube.com/watch?v=dniVs0xKYKk
+- https://www.youtube.com/watch?v=pKpKv9MKN-E
+
+
+
+
 
 
