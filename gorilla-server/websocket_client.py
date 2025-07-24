@@ -14,8 +14,15 @@ def on_close(ws, close_status_code, close_msg):
     print("Connection closed")
 
 def on_open(ws):
-    print("Connection opened")
-    ws.send("Hello from Python WebSocket client!")
+    print("Connected to server. Type messages and press Enter (Ctrl+C to quit).")
+    def run():
+        while True:
+            msg = input("> ")  # take user input
+            ws.send(msg)
+    import threading
+    threading.Thread(target=run).start()
+
+
 
 # Create a WebSocket connection
 ws = websocket.WebSocketApp(
