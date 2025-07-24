@@ -6,7 +6,11 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+    ReadBufferSize:  1024,
+    WriteBufferSize: 1024,
+}
+
 
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
@@ -19,13 +23,15 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	log.Println("Client connected")
 
 	for {
-		messageType, msg, err := conn.ReadMessage()
+		
+		_, msg, err := conn.ReadMessage()
 		if err != nil {
 			log.Println("Read error:", err)
 			break
 		}
-		log.Printf("Message: %s", msg)
-		conn.WriteMessage(messageType, msg) // echo
+		log.Printf("Message from client : %s", msg)
+		
+		//conn.WriteMessage(messageType, msg) // echo  , broadcasting the message to any one 
 	}
 }
 
