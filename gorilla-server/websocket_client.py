@@ -1,5 +1,7 @@
 """
 make the websocket client
+
+the clint code to send the message in the websocket connection
 """
 
 import websocket
