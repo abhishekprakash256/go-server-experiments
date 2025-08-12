@@ -1,5 +1,7 @@
 /*
 The function to make the websocket server 
+
+Make the websocket using the upgrader 
 */
 
 package main 
