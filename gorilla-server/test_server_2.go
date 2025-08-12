@@ -1,6 +1,8 @@
 /*
 this is a file to test the go gorilla server 
 
+the ws is not a websocket handler and can't be used as one , need an upgrader
+
 
 https://tutorialedge.net/golang/go-websocket-tutorial/
 
