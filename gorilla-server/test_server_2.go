@@ -31,13 +31,15 @@ func wsEndPoint(w http.ResponseWriter, r *http.Request ) {
 
 func setupRoutes() {
 
+	fmt.Println("The server is started on localhost : 8080")
+
 	http.HandleFunc("/", HomePage)
     http.HandleFunc("/ws", wsEndPoint)
 }
 
 func main() {
 
-	fmt.Println("In the main")
+	//fmt.Println("In the main")
 
 	setupRoutes()
 
