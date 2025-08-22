@@ -1,0 +1,30 @@
+/*
+making the go client
+*/
+
+package main 
+
+import (
+	"log"
+	"github.com/gorilla/websocket"
+
+)
+
+func main() {
+
+	c , _ , err := websocket.DefaultDialer.Dial("ws://localhost:8080/ws", nil)
+
+	if err != nil {
+		log.Fatal("dial" , err)
+	}
+
+	defer c.Close()
+
+	err = c.WriteMessage(websocket.TextMessage, []byte("Hello"))
+
+	if err != nil {
+		log.Println("write error: ", err)
+
+		return
+	}
+}
