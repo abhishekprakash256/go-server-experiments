@@ -15,6 +15,7 @@ func main() {
 	c , _ , err := websocket.DefaultDialer.Dial("ws://localhost:8080/ws", nil)
 
 	if err != nil {
+
 		log.Fatal("dial" , err)
 	}
 
@@ -23,6 +24,7 @@ func main() {
 	err = c.WriteMessage(websocket.TextMessage, []byte("Hello"))
 
 	if err != nil {
+		
 		log.Println("write error: ", err)
 
 		return
