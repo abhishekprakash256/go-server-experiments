@@ -1,5 +1,7 @@
 /*
 The server for connecting the clinets 
+
+and braodcasting the message to the clinets
 */
 
 package main 
