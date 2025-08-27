@@ -28,7 +28,7 @@ type Message struct {
 
 	From string `json:"from"`
 	To string 	`json:"to"`
-	Content String `json:"content"`
+	Content string `json:"content"`
 }
 
 
@@ -82,9 +82,9 @@ func wsEndpoint(w http.ResponseWriter , r *http.Request) {
 
 	clientID := msg.From
 
-	clients[Clinet] = conn
+	clients[clientID] = conn
 
-	log.Printf(" %s conncted " , clientID)
+	log.Printf(" %s conncted \n" , clientID)
 
 
 	// start listening to the message 
@@ -146,7 +146,7 @@ func handleMessages() {
 
 		msg := <- messages
 
-		if conn, ok := clients[msg.To] ; ok {
+		if conn, ok := clients[msg.To]; ok {
 
 			if err := conn.WriteJSON(msg); err != nil {
 
@@ -156,14 +156,13 @@ func handleMessages() {
 
 			}
 
-			else {
-
+		} else {
 				log.Printf("User %s not connected \n" , msg.To)
 			}
 
 		}
-	}
 }
+
 
 func setupRoutes() {
 
@@ -179,7 +178,7 @@ func main() {
 	setupRoutes()
 
 	go handleMessages()
-	
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
