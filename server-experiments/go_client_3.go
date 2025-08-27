@@ -70,7 +70,7 @@ func main() {
 
 			}
 
-			fmt.Println("\n %s → %s: %s\n", msg.From, msg.To, msg.Content)
+			fmt.Println("\n%s → %s: %s\n", msg.From, msg.To, msg.Content)
 		} 
 
 
